@@ -5,7 +5,7 @@ import javax.persistence.Embeddable
 
 @Embeddable
 @Getter
-data class Address(
+class Address(
         private val city: String,
         private val street: String,
         private val zipcode: String
