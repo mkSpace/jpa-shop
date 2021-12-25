@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class JpashopApplication
 
 fun main(args: Array<String>) {
-	runApplication<JpashopApplication>(*args)
+    runApplication<JpashopApplication>(*args)
 }
