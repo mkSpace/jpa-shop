@@ -6,10 +6,10 @@ import javax.persistence.Entity
 @Entity
 @DiscriminatorValue("A")
 data class Album(
-        override val id: Long,
+        override var id: Long?,
         override val name: String,
         override val price: Int,
-        override val stockQuantity: Int,
+        override var stockQuantity: Int,
         val artist: String,
         val etc: String
 ) : Item(id, name, price, stockQuantity)
