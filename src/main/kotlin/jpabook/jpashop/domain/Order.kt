@@ -29,8 +29,37 @@ class Order(
             delivery.order = this
         }
 
+    val totalPrice: Int
+        get() = orderItems.sumOf { it.totalPrice }
+
     fun addOrderItem(orderItem: OrderItem) {
         orderItems += orderItem
         orderItem.order = this
+    }
+
+    companion object {
+        fun createOrder(member: Member, delivery: Delivery, vararg orderItems: OrderItem): Order {
+            return Order(
+                    orderMember = member,
+                    orderDelivery = delivery,
+                    orderItems = orderItems.toList(),
+                    status = OrderStatus.ORDERED,
+                    orderDate = LocalDateTime.now()
+            )
+        }
+    }
+
+    // 비즈니스 로직
+    /**
+     * 주문 취소
+     */
+    fun cancel() {
+        if(delivery.status == DeliveryStatus.COMP) {
+            throw IllegalStateException("이미 발송완료된 상품은 취소가 불가능합니다.")
+        }
+        status = OrderStatus.CANCELLED
+        orderItems.forEach { orderItem ->
+            orderItem.cancel()
+        }
     }
 }
