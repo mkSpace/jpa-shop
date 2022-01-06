@@ -15,6 +15,7 @@ internal class MemberServiceTest {
 
     @Autowired
     lateinit var memberService: MemberService
+
     @Autowired
     lateinit var memberRepository: MemberRepository
 

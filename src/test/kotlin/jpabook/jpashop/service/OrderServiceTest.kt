@@ -20,16 +20,19 @@ import javax.persistence.EntityManager
 @Transactional
 internal class OrderServiceTest {
 
-    @Autowired private lateinit var entityManager: EntityManager
-    @Autowired private lateinit var orderService: OrderService
-    @Autowired private lateinit var orderRepository: OrderRepository
+    @Autowired
+    private lateinit var entityManager: EntityManager
+    @Autowired
+    private lateinit var orderService: OrderService
+    @Autowired
+    private lateinit var orderRepository: OrderRepository
 
     @Test
     fun 상품주문() {
         val member = createMember()
         val memberId = member.id ?: fail { "Member Id가 null입니다." }
         val book = createBook("책1", 10000, 10)
-        val bookId = book.id ?: fail { "Book id 가 null 입니다."}
+        val bookId = book.id ?: fail { "Book id 가 null 입니다." }
         val orderCount = 2
 
         // when
