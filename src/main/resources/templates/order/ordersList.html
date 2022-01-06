@@ -46,7 +46,7 @@
                 <td>
                     <a class="btn btn-danger" href="#"
                        th:href="'javascript:cancel('+${item.id}+')'"
-                       th:if="${item.status.name() == 'ORDER'}">CANCEL</a>
+                       th:if="${item.status.name() == 'ORDERED'}">CANCEL</a>
                 </td>
             </tr>
             </tbody>
