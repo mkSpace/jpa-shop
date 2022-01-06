@@ -8,9 +8,9 @@ import javax.persistence.EntityManager
 class ItemRepository(private val entityManager: EntityManager) {
 
     fun save(item: Item) {
-        item.id?.let { itemId ->
-            entityManager.persist(itemId)
-        } ?: entityManager.merge(item)
+        item.id?.let {
+            entityManager.merge(item)
+        } ?: entityManager.persist(item)
     }
 
     fun findOne(id: Long): Item = entityManager.find(Item::class.java, id)

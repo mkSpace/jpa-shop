@@ -14,6 +14,15 @@ class ItemService(private val itemRepository: ItemRepository) {
         itemRepository.save(item)
     }
 
+    @Transactional
+    fun updateItem(itemId: Long, name: String?, price: Int?, stockQuantity: Int?) {
+        itemRepository.findOne(itemId).apply {
+            this.name = name
+            this.price = price
+            this.stockQuantity = stockQuantity
+        }
+    }
+
     fun findItems(): List<Item> = itemRepository.findAll()
 
     fun findOne(itemId: Long): Item = itemRepository.findOne(itemId)

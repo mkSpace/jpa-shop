@@ -7,9 +7,9 @@ import javax.persistence.Entity
 @DiscriminatorValue("M")
 data class Movie(
         override var id: Long?,
-        override val name: String,
-        override val price: Int,
-        override var stockQuantity: Int,
+        override var name: String? = null,
+        override var price: Int? = null,
+        override var stockQuantity: Int? = null,
         val director: String,
         val actor: String
 ) : Item(id, name, price, stockQuantity)

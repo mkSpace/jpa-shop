@@ -8,20 +8,20 @@ import javax.persistence.*
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "dtype")
 open class Item(
-        @Id @GeneratedValue @Column(name = "item_id") open var id: Long?,
-        open val name: String,
-        open val price: Int,
-        open var stockQuantity: Int,
+        @Id @GeneratedValue @Column(name = "item_id") open var id: Long? = null,
+        open var name: String? = null,
+        open var price: Int? = null,
+        open var stockQuantity: Int? = null,
         @ManyToMany(mappedBy = "items") open val categories: List<Category> = emptyList()
 ) {
 
     fun addStock(quantity: Int) {
-        stockQuantity += quantity
+        stockQuantity = (stockQuantity ?: 0) + quantity
     }
 
     fun removeStock(quantity: Int) {
-        val restStock = stockQuantity - quantity
-        if(restStock < 0) {
+        val restStock = (stockQuantity ?: 0) - quantity
+        if (restStock < 0) {
             throw NotEnoughStockException("need more stock")
         }
         stockQuantity = restStock

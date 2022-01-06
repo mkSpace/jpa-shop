@@ -7,9 +7,9 @@ import javax.persistence.Entity
 @DiscriminatorValue("A")
 data class Album(
         override var id: Long?,
-        override val name: String,
-        override val price: Int,
-        override var stockQuantity: Int,
+        override var name: String? = null,
+        override var price: Int? = null,
+        override var stockQuantity: Int? = null,
         val artist: String,
         val etc: String
 ) : Item(id, name, price, stockQuantity)
