@@ -2,7 +2,9 @@ package jpabook.jpashop.repository
 
 import jpabook.jpashop.domain.Order
 import org.springframework.stereotype.Repository
+import org.springframework.util.StringUtils
 import javax.persistence.EntityManager
+import javax.persistence.TypedQuery
 
 @Repository
 class OrderRepository(private val entityManager: EntityManager) {
@@ -20,5 +22,39 @@ class OrderRepository(private val entityManager: EntityManager) {
                 .setParameter("name", orderSearch.memberName)
                 .setMaxResults(1000)
                 .resultList
+    }
+
+    fun findAllByString(orderSearch: OrderSearch): List<Order> {
+        var jpql = "select o From Order o join o.member m"
+        var isFirstCondition = true
+
+        if (orderSearch.orderStatus != null) {
+            if (isFirstCondition) {
+                jpql += " where"
+                isFirstCondition = false
+            } else {
+                jpql += " and"
+            }
+            jpql += " o.status = :status"
+        }
+        if (StringUtils.hasText(orderSearch.memberName)) {
+            if (isFirstCondition) {
+                jpql += " where"
+            } else {
+                jpql += " and"
+            }
+            jpql += " m.username like :name"
+        }
+
+        var query: TypedQuery<Order?> = entityManager.createQuery(jpql, Order::class.java).setMaxResults(1000) //최대 1000건
+
+        if (orderSearch.orderStatus != null) {
+            query = query.setParameter("status", orderSearch.orderStatus)
+        }
+
+        if (StringUtils.hasText(orderSearch.memberName)) {
+            query = query.setParameter("name", orderSearch.memberName)
+        }
+        return query.resultList.filterNotNull()
     }
 }

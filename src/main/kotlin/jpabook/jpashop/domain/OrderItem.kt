@@ -1,19 +1,17 @@
 package jpabook.jpashop.domain
 
 import jpabook.jpashop.domain.item.Item
-import lombok.AccessLevel
-import lombok.NoArgsConstructor
 import javax.persistence.*
 import javax.persistence.FetchType.LAZY
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "order_item")
 class OrderItem(
         @Id @GeneratedValue @Column(name = "order_item_id") val id: Long? = null,
         @ManyToOne(fetch = LAZY) @JoinColumn(name = "item_id") val item: Item,
-        @ManyToOne(fetch = LAZY) @JoinColumn(name = "order") var order: Order? = null,
+        @ManyToOne(fetch = LAZY) @JoinColumn(name = "order_id") var order: Order? = null,
         val orderPrice: Int,
-        private val count: Int
+        val count: Int
 ) {
 
     val totalPrice: Int
@@ -25,7 +23,7 @@ class OrderItem(
 
     companion object {
         fun createOrderItem(item: Item, orderPrice: Int, count: Int): OrderItem {
-            val orderItem =  OrderItem(
+            val orderItem = OrderItem(
                     item = item,
                     orderPrice = orderPrice,
                     count = count

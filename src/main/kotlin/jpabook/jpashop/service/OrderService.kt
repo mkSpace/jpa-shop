@@ -6,6 +6,7 @@ import jpabook.jpashop.domain.OrderItem
 import jpabook.jpashop.repository.ItemRepository
 import jpabook.jpashop.repository.MemberRepository
 import jpabook.jpashop.repository.OrderRepository
+import jpabook.jpashop.repository.OrderSearch
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -22,9 +23,11 @@ class OrderService(
         val member = memberRepository.findOne(memberId)
         val item = itemRepository.findOne(itemId)
         member.address ?: throw IllegalArgumentException("멤버의 주소가 비어있습니다.")
+        val itemPrice = item.price ?: throw IllegalArgumentException("Item의 price가 비어있습니다.")
         val delivery = Delivery(address = member.address)
-        val orderItem = OrderItem.createOrderItem(item, item.price, count)
+        val orderItem = OrderItem.createOrderItem(item, itemPrice, count)
         val order = Order.createOrder(member, delivery, orderItem)
+        orderItem.order = order
         return orderRepository.save(order)
     }
 
@@ -34,7 +37,7 @@ class OrderService(
         order.cancel()
     }
 
-//    fun findOrders(orderSearch: OrderSearch): List<Order> {
-//        return orderRepository.findAll(orderSearch)
-//    }
+    fun findOrders(orderSearch: OrderSearch): List<Order> {
+        return orderRepository.findAllByString(orderSearch)
+    }
 }

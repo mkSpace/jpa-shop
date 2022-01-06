@@ -2,7 +2,7 @@ package jpabook.jpashop.domain
 
 import jpabook.jpashop.domain.item.Item
 import javax.persistence.*
-import javax.persistence.FetchType.*
+import javax.persistence.FetchType.LAZY
 
 @Entity
 class Category(
@@ -16,8 +16,8 @@ class Category(
         @ManyToOne(fetch = LAZY) @JoinColumn(name = "parent_id") var parent: Category? = null,
         @OneToMany(mappedBy = "parent") var children: List<Category> = emptyList()
 ) {
-   fun addChildCategory(child: Category) {
-          this.children += child
-          child.parent = this
-   }
+    fun addChildCategory(child: Category) {
+        this.children += child
+        child.parent = this
+    }
 }
