@@ -17,11 +17,7 @@ class OrderRepository(private val entityManager: EntityManager) {
     fun findOne(id: Long): Order = entityManager.find(Order::class.java, id)
 
     fun findAll(orderSearch: OrderSearch): List<Order> {
-        return entityManager.createQuery("SELECT 0 FROM Order o join o.member m WHERE o.status = :status and m.username like :name", Order::class.java)
-                .setParameter("status", orderSearch.orderStatus)
-                .setParameter("name", orderSearch.memberName)
-                .setMaxResults(1000)
-                .resultList
+        return entityManager.createQuery("SELECT 0 FROM Order o join o.member m WHERE o.status = :status and m.username like :name", Order::class.java).setParameter("status", orderSearch.orderStatus).setParameter("name", orderSearch.memberName).setMaxResults(1000).resultList
     }
 
     fun findAllByString(orderSearch: OrderSearch): List<Order> {
@@ -56,5 +52,18 @@ class OrderRepository(private val entityManager: EntityManager) {
             query = query.setParameter("name", orderSearch.memberName)
         }
         return query.resultList.filterNotNull()
+    }
+
+    fun findAllWithMemberDelivery(): List<Order> {
+        return entityManager.createQuery("select o from Order o " + "join fetch o.member m " + "join fetch o.delivery d", Order::class.java).resultList
+    }
+
+    fun findAllWithItems(): List<Order> {
+        return entityManager.createQuery("select distinct o from Order o " +
+                "join fetch o.member m " +
+                "join fetch o.delivery d " +
+                "join fetch o.orderItems oi " +
+                "join fetch oi.item i", Order::class.java
+        ).resultList
     }
 }

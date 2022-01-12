@@ -1,6 +1,5 @@
 package jpabook.jpashop.domain
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import java.time.LocalDateTime
 import javax.persistence.*
 import javax.persistence.FetchType.LAZY
@@ -36,7 +35,7 @@ class Order(
 
     companion object {
         fun createOrder(member: Member, delivery: Delivery, vararg orderItems: OrderItem): Order {
-            val order =  Order(
+            val order = Order(
                     orderMember = member,
                     orderDelivery = delivery,
                     orderItems = orderItems.toList(),

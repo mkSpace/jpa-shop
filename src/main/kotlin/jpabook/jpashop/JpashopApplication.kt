@@ -6,7 +6,7 @@ import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 
 @SpringBootApplication
-class JpashopApplication{
+class JpashopApplication {
 
     @Bean
     fun hibernate5Module(): Hibernate5Module {
