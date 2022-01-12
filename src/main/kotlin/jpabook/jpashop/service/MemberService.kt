@@ -23,7 +23,13 @@ class MemberService(private val memberRepository: MemberRepository) {
         }
     }
 
-    fun findMember(): List<Member> = memberRepository.findAll()
+    fun findMembers(): List<Member> = memberRepository.findAll()
 
     fun findOne(id: Long): Member = memberRepository.findOne(id)
+
+    @Transactional
+    fun update(id: Long, name: String) {
+        val member = memberRepository.findOne(id)
+        member.username = name
+    }
 }

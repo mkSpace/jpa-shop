@@ -19,7 +19,7 @@ class OrderController(
 
     @GetMapping("/order")
     fun createForm(model: Model): String {
-        val members = memberService.findMember()
+        val members = memberService.findMembers()
         val items = itemService.findItems()
 
         model.addAttribute("members", members)

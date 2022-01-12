@@ -35,7 +35,7 @@ class MemberController(private val memberService: MemberService) {
 
     @GetMapping("/members")
     fun list(model: Model): String {
-        model.addAttribute("members", memberService.findMember())
+        model.addAttribute("members", memberService.findMembers())
         return "members/membersList"
     }
 }
