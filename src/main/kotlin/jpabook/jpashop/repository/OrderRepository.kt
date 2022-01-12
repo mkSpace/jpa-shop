@@ -59,11 +59,24 @@ class OrderRepository(private val entityManager: EntityManager) {
     }
 
     fun findAllWithItems(): List<Order> {
-        return entityManager.createQuery("select distinct o from Order o " +
-                "join fetch o.member m " +
-                "join fetch o.delivery d " +
-                "join fetch o.orderItems oi " +
-                "join fetch oi.item i", Order::class.java
-        ).resultList
+        return entityManager
+                .createQuery(
+                        "select distinct o from Order o " +
+                                "join fetch o.member m " +
+                                "join fetch o.delivery d " +
+                                "join fetch o.orderItems oi " +
+                                "join fetch oi.item i", Order::class.java
+                )
+                .setFirstResult(0)
+                .setMaxResults(100)
+                .resultList
+    }
+
+    fun findAllWithMemberDelivery(offset: Int, limit: Int): List<Order> {
+        return entityManager
+                .createQuery("select o from Order o " + "join fetch o.member m " + "join fetch o.delivery d", Order::class.java)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .resultList
     }
 }
